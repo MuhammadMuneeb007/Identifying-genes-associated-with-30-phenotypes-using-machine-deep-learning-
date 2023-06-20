@@ -2,6 +2,14 @@ Check if the phenotype is listed on GWAS Catalog
 
 GWAS Catalog: https://www.ebi.ac.uk/gwas/home
 
+
+The table below mentions the Phenotype and corresponding GWAS Catalog ID for that Phenotype. Associations in CSV format can be downloaded using this link and follow this format.
+
+https://www.ebi.ac.uk/gwas/efotraits/ID
+
+**https://www.ebi.ac.uk/gwas/efotraits/EFO_0003888**
+
+
 |    | Phenotype                         | ID            |
 |---:|:----------------------------------|:--------------|
 |  0 | ADHD                              | EFO_0003888   |
