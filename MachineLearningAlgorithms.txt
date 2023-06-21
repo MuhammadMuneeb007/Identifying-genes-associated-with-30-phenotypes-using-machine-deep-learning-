@@ -1,0 +1,21 @@
+Algorithm Index for Reference	Algorithm Name
+ML_1	AdaBoostClassifier
+ML_2	BaggingClassifier
+ML_3	ExtraTreesClassifier
+ML_4	GradientBoostingClassifier
+ML_5	RandomForestClassifier
+ML_6	PassiveAggressiveClassifier
+ML_7	RidgeClassifier
+ML_8	SGDClassifier
+ML_9	LogisticRegression
+ML_10	DecisionTreeClassifier
+ML_11	SVC, Kernel: linear
+ML_12	Xgboost, Booster: gblinear - Loss function: binary:hinge
+ML_13	Xgboost, Booster: gblinear - Loss function: binary:logistic
+ML_14	Xgboost, Booster: gblinear - Loss function: binary:logitraw
+ML_15	Xgboost, Booster: gbtree - Loss function: binary:hinge
+ML_16	Xgboost, Booster: gbtree - Loss function: binary:logistic
+ML_17	Xgboost, Booster: gbtree - Loss function: binary:logitraw
+ML_18	Xgboost, Booster: dart - Loss function: binary:hinge
+ML_19	Xgboost, Booster: dart - Loss function: binary:logistic
+ML_20	Xgboost, Booster: dart - Loss function: binary:logitraw
