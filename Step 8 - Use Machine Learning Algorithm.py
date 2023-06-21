@@ -149,24 +149,37 @@ from sklearn.ensemble import HistGradientBoostingRegressor
 from sklearn.experimental import enable_hist_gradient_boosting
 from sklearn.ensemble import HistGradientBoostingClassifier
 from sklearn.metrics import matthews_corrcoef
-
+from sklearn.metrics import f1_score
+from sklearn.metrics import precision_score
+from sklearn.metrics import recall_score
 
 def sorted_nicely( l ):
     convert = lambda text: int(text) if text.isdigit() else text
     alphanum_key = lambda key: [convert(c) for c in re.split('([0-9]+)', key)]
     return sorted(l, key = alphanum_key)
 
+def traintestf1score(model,x_train, y_train,x_test,y_test):
+ a = int( (f1_score(y_train, [np.round(value) for value in model.predict(x_train)]) * 100.0))
+ b = confusion_matrix(y_train, model.predict(x_train))
+ c = int((f1_score(y_test, [np.round(value) for value in model.predict(x_test)]) * 100.0))
+ d = confusion_matrix(y_test, model.predict(x_test))
+ return a,b,c,d
+
+ a = int( (recall_score(y_train, [np.round(value) for value in model.predict(x_train)]) * 100.0))
+ b = confusion_matrix(y_train, model.predict(x_train))
+ c = int((recall_score(y_test, [np.round(value) for value in model.predict(x_test)]) * 100.0))
+ d = confusion_matrix(y_test, model.predict(x_test))
+
+ return a,b,c,d
 def traintestAUC(model,x_train, y_train,x_test,y_test):
  a = int( (roc_auc_score(y_train, [np.round(value) for value in model.predict(x_train)]) * 100.0))
  b = confusion_matrix(y_train, model.predict(x_train))
  c = int((roc_auc_score(y_test, [np.round(value) for value in model.predict(x_test)]) * 100.0))
  d = confusion_matrix(y_test, model.predict(x_test))
  return a,b,c,d
-
 def traintestMCC(model,x_train, y_train,x_test,y_test):
  a = int( (matthews_corrcoef(y_train, [np.round(value) for value in model.predict(x_train)]) * 100.0))
  b = confusion_matrix(y_train, model.predict(x_train))
- 
  c = int((matthews_corrcoef(y_test, [np.round(value) for value in model.predict(x_test)]) * 100.0))
  d = confusion_matrix(y_test, model.predict(x_test))
  return a,b,c,d
@@ -191,32 +204,39 @@ def saveimportance_1(mod,name,pvalue):
     importance = mod.feature_importances_
     temp = pd.DataFrame()
     temp['Features_importance'] =  importance
+    print(name,"1")
     temp.to_csv(sys.argv[1]+os.sep+sys.argv[2]+os.sep+pvalue+os.sep+name+".csv")
 
 def saveimportance_2(mod,name,pvalue):
     feature_importances = np.mean([tree.feature_importances_ for tree in mod.estimators_], axis=0)
     temp = pd.DataFrame()
     temp['Features_importance'] =  feature_importances
+    print(name,"2")
+    
     temp.to_csv(sys.argv[1]+os.sep+sys.argv[2]+os.sep+pvalue+os.sep+name+".csv")    
  
-
 def saveimportance_3(mod,name,pvalue):
     importance = mod.best_estimator_.feature_importances_
     temp = pd.DataFrame()
     temp['Features_importance'] =  importance
+    print(name,"3")
+    
     temp.to_csv(sys.argv[1]+os.sep+sys.argv[2]+os.sep+pvalue+os.sep+name+".csv")
 
 def saveimportance_4(mod,name,pvalue):
     importance = mod.coef_[0]
-    
     temp = pd.DataFrame()
     temp['Features_importance'] =  importance
+    print(name,"4")
+    
     temp.to_csv(sys.argv[1]+os.sep+sys.argv[2]+os.sep+pvalue+os.sep+name+".csv")
 
 def saveimportance_5(mod,name,pvalue):
     importance = mod.ranking_
     temp = pd.DataFrame()
     temp['Features_importance'] =  importance
+    print(name,"5")
+    
     temp.to_csv(sys.argv[1]+os.sep+sys.argv[2]+os.sep+pvalue+os.sep+name+".csv")
 
 
@@ -225,15 +245,13 @@ from sklearn.ensemble import RandomForestClassifier
 from sklearn.neighbors import KNeighborsClassifier
 from sklearn.svm import SVC
 from sklearn.ensemble import HistGradientBoostingRegressor
+import numpy as np, sequentia as seq
 
 allmodels = ['AdaBoostClassifier','BaggingClassifier','ExtraTreesClassifier','GradientBoostingClassifier',
 'RandomForestClassifier','PassiveAggressiveClassifier'
-,'RidgeClassifier','SGDClassifier','LogisticRegression','DecisionTreeClassifier']
+,'RidgeClassifier','SGDClassifier','BernoulliNB','LogisticRegression','DecisionTreeClassifier']
 
-import numpy as np, sequentia as seq
 
-results = pd.DataFrame(columns = ['Training AUC','Test AUC'])
-results2 = pd.DataFrame(columns = ['Training MCC','Test MCC'])
 
 pheno = sys.argv[1]
 iteration = sys.argv[2]
@@ -241,6 +259,9 @@ pvalues = os.listdir(sys.argv[1]+os.sep+str(iteration))
 
 results = {}
 results2 = {}
+results3 = {}
+results4 = {}
+results5 = {}
 
 count=1
 for pvalue in pvalues:
@@ -258,14 +279,20 @@ for pvalue in pvalues:
 
         x_train =x_train.iloc[:,6:].values
         x_test  =x_test.iloc[:,6:].values
+
         results["SNPs:"+str(x_train.shape[1])] = []
         results2["SNPs:"+str(x_train.shape[1])] = []
+        results3["SNPs:"+str(x_train.shape[1])] = []
+        results4["SNPs:"+str(x_train.shape[1])] = []
+        results5["SNPs:"+str(x_train.shape[1])] = []
+        
         scaler = StandardScaler()
         std_scale = preprocessing.StandardScaler().fit(x_train)
         x_train = std_scale.transform(x_train)
         x_test = std_scale.transform(x_test)
         y_train  = pd.read_csv(iterationdirec+os.sep+'train/train.fam', sep="\s+",header=None,names=["a","b","c","d","e","f"])
         y_test= pd.read_csv(iterationdirec+os.sep+'test/test.fam', sep="\s+",header=None,names=["a","b","c","d","e","f"])
+        
         y_train.f[y_train['f']==1]=0
         y_train.f[y_train['f']==2]=1
         y_test.f[y_test['f']==1]=0
@@ -280,55 +307,74 @@ for pvalue in pvalues:
         )
 
         for model in allmodels:
-            print(model)
             try:
                 mod = eval(model)().fit(x_train, y_train, sample_weight=sample_weights)
                 getmefeatureimportance(mod,model,pvalue)
+
+                a,b,c,d =traintestAUC(mod,x_train, y_train,x_test,y_test) 
+                results["SNPs:"+str(x_train.shape[1])].append(str(a)+"/"+str(c))
+
+                a,b,c,d =traintestMCC(mod,x_train, y_train,x_test,y_test) 
+                results2["SNPs:"+str(x_train.shape[1])].append(str(a)+"/"+str(c))
+
+                a,b,c,d =traintestf1score(mod,x_train, y_train,x_test,y_test) 
+                results3["SNPs:"+str(x_train.shape[1])].append(str(a)+"/"+str(c))   
+                             
             except:
                 mod = eval(model)().fit(x_train, y_train)
                 getmefeatureimportance(mod,model,pvalue)
 
 
-            a,b,c,d =traintestAUC(mod,x_train, y_train,x_test,y_test) 
-            
-            results["SNPs:"+str(x_train.shape[1])].append(str(a)+"/"+str(c))
-            a,b,c,d =traintestMCC(mod,x_train, y_train,x_test,y_test) 
-            results2["SNPs:"+str(x_train.shape[1])].append(str(a)+"/"+str(c))
+                a,b,c,d =traintestAUC(mod,x_train, y_train,x_test,y_test) 
+                results["SNPs:"+str(x_train.shape[1])].append(str(a)+"/"+str(c))
+
+                a,b,c,d =traintestMCC(mod,x_train, y_train,x_test,y_test) 
+                results2["SNPs:"+str(x_train.shape[1])].append(str(a)+"/"+str(c))
+
+                a,b,c,d =traintestf1score(mod,x_train, y_train,x_test,y_test) 
+                results3["SNPs:"+str(x_train.shape[1])].append(str(a)+"/"+str(c))
+
+
         for kern in ['linear']:
-            print("svc","")
             mod = SVC(gamma='auto',kernel=kern).fit(x_train, y_train, sample_weight=sample_weights)
             getmefeatureimportance(mod,"SGDClassifier",pvalue)
             a,b,c,d =traintestAUC(mod,x_train, y_train,x_test,y_test) 
             results["SNPs:"+str(x_train.shape[1])].append(str(a)+"/"+str(c))
+
             a,b,c,d =traintestMCC(mod,x_train, y_train,x_test,y_test) 
             results2["SNPs:"+str(x_train.shape[1])].append(str(a)+"/"+str(c))
+            
+            a,b,c,d =traintestf1score(mod,x_train, y_train,x_test,y_test) 
+            results3["SNPs:"+str(x_train.shape[1])].append(str(a)+"/"+str(c))
+
+
+
                         
         booster = ['gblinear','gbtree','dart']
         lossfunction = ['binary:hinge','binary:logistic','binary:logitraw']
+
+
         for x1 in booster:
             for x2 in lossfunction:
                 xgb = XGBClassifier(booster=x1,objective=x2,eval_metric="auc").fit(x_train, y_train)
                 getmefeatureimportance(xgb,"Xgboost-Booster-"+x1+"-Lossfunction-"+x2.replace(":","-"),pvalue)
                 a,b,c,d =traintestAUC(xgb,x_train, y_train,x_test,y_test) 
                 results["SNPs:"+str(x_train.shape[1])].append(str(a)+"/"+str(c))
+
                 a,b,c,d =traintestMCC(mod,x_train, y_train,x_test,y_test) 
-                results2["SNPs:"+str(x_train.shape[1])].append(str(a)+"/"+str(c))                
-        
+                results2["SNPs:"+str(x_train.shape[1])].append(str(a)+"/"+str(c))       
+
+                a,b,c,d =traintestf1score(mod,x_train, y_train,x_test,y_test) 
+                results3["SNPs:"+str(x_train.shape[1])].append(str(a)+"/"+str(c))
+
         L = pd.DataFrame(results)
         L.to_csv(pheno+os.sep+iteration+os.sep+"Results_MachineLearning_AUC.csv",index=False, sep="\t")
 
-        print(pd.DataFrame(results).to_markdown()) 
         L = pd.DataFrame(results2)
         L.to_csv(pheno+os.sep+iteration+os.sep+"Results_MachineLearning_MCC.csv",index=False, sep="\t")
-        print(pd.DataFrame(results2).to_markdown()) 
 
-
-
-
-#python Step\ 7\ -\ Use\ machine\ learning\ algorithm.py Anemic 1
-#python Step\ 7\ -\ Use\ machine\ learning\ algorithm.py Anemic 2
-#python Step\ 7\ -\ Use\ machine\ learning\ algorithm.py Anemic 3
-#python Step\ 7\ -\ Use\ machine\ learning\ algorithm.py Anemic 4
-#python Step\ 7\ -\ Use\ machine\ learning\ algorithm.py Anemic 5
-
-exit(0)
+        L = pd.DataFrame(results3)
+        L.to_csv(pheno+os.sep+iteration+os.sep+"Results_MachineLearning_f1score.csv",index=False, sep="\t")
+        
+        
+        print(pd.DataFrame(results).to_markdown()) 
