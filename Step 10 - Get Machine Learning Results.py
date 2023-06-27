@@ -80,9 +80,9 @@ for loop in pd.read_csv("allphenotypesname2.txt",header=None)[0].values:
 
 print(len(disease),len(auc),len(STD),len(ALGO),len(SNP))
 
-indexs = pd.read_csv("MachineLearningAlgoithms.txt",sep="\t")
-print(indexs.head())
-exit(0)
+#indexs = pd.read_csv("MachineLearningAlgoithms.txt",sep="\t")
+#print(indexs.head())
+#exit(0)
 
 hu['Phenotype'] = disease
 hu['Test '+metric+' 5 Iterations Average'] = auc
