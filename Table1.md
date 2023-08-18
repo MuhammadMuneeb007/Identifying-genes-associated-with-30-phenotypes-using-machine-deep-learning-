@@ -1,4 +1,4 @@
-This table shows the phenotypes, the number of SNPs in the GWAS Catalog, the number of SNPs in openSNP data, and the number of Common SNPs between the previous two datasets.
+This table shows the phenotype in our data and the corresponding GWAS catalog accession ID that we used to download the SNPs and genes associated with a particular phenotype.
 
 
 |    | Phenotypes                        | GWAS Association ID   |
