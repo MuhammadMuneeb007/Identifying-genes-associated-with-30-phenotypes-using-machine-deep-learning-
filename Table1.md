@@ -1,4 +1,4 @@
-This table shows the phenotype in our data and the corresponding GWAS catalog accession ID that we used to download the SNPs and genes associated with a particular phenotype.
+This table shows the phenotype in our data and the corresponding GWAS catalog accession ID that we used to download the SNPs and genes associated with a particular phenotype. Each phenotype has multiple associations, and we considered a single association file with a high name resemblance with a specific phenotype.
 
 
 |    | Phenotypes                        | GWAS Association ID   |
