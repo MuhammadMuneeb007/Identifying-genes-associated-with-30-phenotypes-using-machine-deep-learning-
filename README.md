@@ -61,40 +61,20 @@ This step lists all the genes with the best-performing machine learning algorith
 
 
 
+**python Step 12 - Use Deep Learning Algorithms.py**
+
+First, train the deep learning algorithms. Second, extract the best-performing models regarding MCC, AUC, and F1 Score. Third, extract the weights for those models. 
+
+**python Step 12 - Get Deep Learning Results.py**
+
+ Second, extract the best-performing models regarding MCC, AUC, and F1 Score.
+
+**python Step 12 - Get Deep Learning Weights**
+
+Third, extract the weights for those models. 
 
 
-**python Step 9 - Use deep learning algorithm.py Phenotype_Name Iteration**
+**python Step 13 - List Identified Genes - Deep learning.py**
 
-python Step 9 - Use deep learning algorithm.py ADHD 1
+This step lists all the genes with the best-performing deep learning algorithms identified in terms of AUC, MCC, and F1 scores.
 
-
-
-**python Step 10 - Get Deep Learning Results.py Metric**
-
-python Step 10 - Get Deep Learning Results.py AUC
-
-python Step 10 - Get Deep Learning Results.py MCC
-
-
-
-
-
-**python Step 12 – CalculatePRSLassosum.py Phenotype_Name Iteration**
-
-python Step 12 – CalculatePRSLassosum.py  ADHD 1
-
-python Step 12 -  CalculatePRSPlink.py Phenotype_Name Iteration
-
-python Step 12 -  CalculatePRSPlink.py  ADHD 1
-
-python Step 12 -  CalculatePRSPRSice.py Phenotype_Name Iteration
-
-python Step 12 -  CalculatePRSPRSice.py  ADHD 1
-
-**python Step 13 -  GetPRSResults.py Metric ToolMetric Tool**
-
-python Step 13 -  GetPRSResults.py AUC PlinkAUC Plink
-
-python Step 13 -  GetPRSResults.py AUC LassoumAUC Lassosum
-
-python Step 13 -  GetPRSResults.py AUC PRSiceAUC PRSice  
