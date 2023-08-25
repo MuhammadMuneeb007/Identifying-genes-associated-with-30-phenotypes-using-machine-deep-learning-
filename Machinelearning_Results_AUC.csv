@@ -1,0 +1,31 @@
+Phenotype	AUC	SD	Machine learning algorithm index	Number of SNPs
+ADHD	56.6	4.98	Xgboost, Booster: gblinear - Loss function: binary:hinge	5000
+Allergicrhinitis	66.2	26.18	Xgboost, Booster: gblinear - Loss function: binary:hinge	200
+Asthma	62.6	7.77	Xgboost, Booster: gblinear - Loss function: binary:hinge	1000
+Bipolardisorder	73.2	30.36	Xgboost, Booster: gbtree - Loss function: binary:logitraw	500
+Cholesterol	65.4	8.93	Xgboost, Booster: gbtree - Loss function: binary:hinge	5000
+Cravessugar	82.8	18.34	Xgboost, Booster: gblinear - Loss function: binary:logistic	500
+Dentaldecay	66.0	8.94	PassiveAggressiveClassifier	500
+Depression	66.0	20.64	Xgboost, Booster: gblinear - Loss function: binary:hinge	10000
+DiagnosedVitaminDdeficiency	60.8	14.52	Xgboost, Booster: gblinear - Loss function: binary:hinge	200
+DiagnosedwithSleepApnea	67.0	8.37	Xgboost, Booster: gblinear - Loss function: binary:logistic	100
+Dyslexia	63.6	3.29	SGDClassifier	10000
+EarlobeFreeorattached	63.2	12.56	RidgeClassifier	50
+HairType	66.4	11.06	Xgboost, Booster: gblinear - Loss function: binary:logistic	1000
+Hypertension	79.8	21.82	DecisionTreeClassifier	500
+Hypertriglyceridemia	62.4	17.5	PassiveAggressiveClassifier	50
+IrritableBowelSyndrome	59.8	8.07	Xgboost, Booster: gblinear - Loss function: binary:logistic	500
+MentalDisease	60.4	9.18	SGDClassifier	200
+Migraine	64.2	9.34	GradientBoostingClassifier	10000
+Motionsickness	62.6	3.78	Xgboost, Booster: gblinear - Loss function: binary:hinge	100
+PanicDisorder	65.6	5.59	Xgboost, Booster: gblinear - Loss function: binary:logitraw	5000
+PhoticSneezeReflexPhotoptarmis	60.0	6.44	SGDClassifier	200
+PosttraumaticStressDisorderorPTSD	74.0	23.02	Xgboost, Booster: gblinear - Loss function: binary:hinge	1000
+Scoliosis	69.8	12.6	Xgboost, Booster: gblinear - Loss function: binary:logitraw	100
+SensitivitytoMosquitoBites	61.0	13.51	Xgboost, Booster: gblinear - Loss function: binary:hinge	5000
+SleepDisorders	68.4	18.64	SGDClassifier	200
+Strabismus	67.8	12.66	SGDClassifier	1000
+ThyroidIssuesCancer	76.0	13.87	Xgboost, Booster: gblinear - Loss function: binary:hinge	100
+TypeIIDiabetes	69.6	15.65	PassiveAggressiveClassifier	500
+eczema	83.2	37.57	Xgboost, Booster: gbtree - Loss function: binary:hinge	100
+restlesslegsyndrome	66.0	17.68	AdaBoostClassifier	5000
