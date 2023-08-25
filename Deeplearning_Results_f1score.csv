@@ -1,0 +1,31 @@
+Phenotype	F1 Score	SD	Algorithm-Dropout-Optimizer-BatchSize-Epochs	Number of SNPs
+ADHD	40.6	8.38	ANN-0.5-Adam-1-200	200
+Allergicrhinitis	18.2	2.86	ANN-0.2-Adam-5-50	500
+Asthma	42.2	11.71	ANN-0.2-Adam-5-50	100
+Bipolardisorder	77.4	10.41	Stack GRU - LSTM-0.2-Adam-1-200	5000
+Cholesterol	53.6	17.34	ANN-0.2-Adam-5-200	200
+Cravessugar	89.4	3.71	GRU-0.5-Adam-5-200	50
+Dentaldecay	78.4	12.03	GRU-0.5-Adam-1-50	50
+Depression	43.0	13.29	Stack LSTM - BILSTM-0.2-Adam-1-50	10000
+DiagnosedVitaminDdeficiency	39.6	6.07	Stack LSTM - GRU-0.5-Adam-5-50	10000
+DiagnosedwithSleepApnea	61.4	6.62	ANN-0.5-Adam-1-50	100
+Dyslexia	36.8	16.16	GRU-0.5-Adam-5-50	10000
+EarlobeFreeorattached	46.0	8.28	BILSTM-0.5-Adam-1-50	5000
+HairType	42.4	17.42	ANN-0.2-Adam-1-50	200
+Hypertension	94.0	8.22	GRU-0.2-Adam-1-50	10000
+Hypertriglyceridemia	67.8	23.86	ANN-0.2-Adam-1-50	50
+IrritableBowelSyndrome	51.6	5.32	ANN-0.2-Adam-1-200	10000
+MentalDisease	49.0	6.96	ANN-0.2-Adam-1-200	10000
+Migraine	61.0	7.65	ANN-0.5-Adam-5-50	50
+Motionsickness	65.4	5.27	ANN-0.5-Adam-5-200	5000
+PanicDisorder	49.8	8.04	ANN-0.5-Adam-1-200	10000
+PhoticSneezeReflexPhotoptarmis	64.4	10.88	Stack GRU - BILSTM-0.5-Adam-1-200	5000
+PosttraumaticStressDisorderorPTSD	72.0	8.83	BILSTM-0.5-Adam-5-200	100
+Scoliosis	67.2	23.86	ANN-0.5-Adam-1-200	100
+SensitivitytoMosquitoBites	57.6	12.2	Stack LSTM - GRU-0.5-Adam-1-50	1000
+SleepDisorders	34.4	9.07	Stack GRU - LSTM-0.5-Adam-1-200	100
+Strabismus	43.0	30.36	Stack LSTM - GRU-0.2-Adam-1-200	50
+ThyroidIssuesCancer	65.2	17.6	ANN-0.5-Adam-5-200	100
+TypeIIDiabetes	48.6	20.84	Stack BILSTM - GRU-0.2-Adam-5-50	500
+eczema	60.2	11.48	ANN-0.5-Adam-5-50	10000
+restlesslegsyndrome	42.2	17.34	ANN-0.2-Adam-5-200	5000
