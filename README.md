@@ -55,6 +55,14 @@ python Step 10 - Get Machine Learning Results.py  MCC
 python Step 10 - Get Machine Learning Results.py  AUC
 
 
+**python Step 11 - List Identified Genes - Machine learning**
+
+This step lists all the genes with the best-performing machine learning algorithms identified in terms of AUC, MCC, and F1 scores.
+
+
+
+
+
 **python Step 9 - Use deep learning algorithm.py Phenotype_Name Iteration**
 
 python Step 9 - Use deep learning algorithm.py ADHD 1
@@ -66,6 +74,9 @@ python Step 9 - Use deep learning algorithm.py ADHD 1
 python Step 10 - Get Deep Learning Results.py AUC
 
 python Step 10 - Get Deep Learning Results.py MCC
+
+
+
 
 
 **python Step 12 – CalculatePRSLassosum.py Phenotype_Name Iteration**
