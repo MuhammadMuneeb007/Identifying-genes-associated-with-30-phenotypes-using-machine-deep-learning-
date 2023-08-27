@@ -10,7 +10,14 @@ Identifying genes associated with phenotypes using machine and deep learning
 4. **Analysis3.pdf** A complete list of all the phenotypes after initial quality controls on genotype data.
 5. **MachineLearningAlgorithms.txt** A complete list of machine learning algorithms.
 6. **DeepLearningAlgorithms.txt** A complete list of deep learning algorithms.
-7. **Plink_PRSice_Lassosum_Parameters.txt** A complete list of PRS tools paramters.
+7. **Deeplearning_Results_{AUC/MCC/F1 Score}.csv** Deep learning classification performance.
+8. **Machinelearning_Results_{AUC/MCC/F1 Score}.csv** Deep learning classification performance.
+8. **Final_DeepLearning_Results.csv** Machine learning gene identification performance.
+9. **Final_MachineLearning_Results.csv** Machine learning gene identification performance.
+11. **Final_Results.csv** List of genes identified by machine and deep learning algorithms.
+
+
+
 
 
 **Commands**
