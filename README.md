@@ -78,3 +78,10 @@ Third, extract the weights for those models.
 
 This step lists all the genes with the best-performing deep learning algorithms identified in terms of AUC, MCC, and F1 scores.
 
+
+**python Step 13 - List Identified Genes - Deep learning.py**
+
+This step lists all the genes with the best-performing deep learning algorithms identified in terms of AUC, MCC, and F1 scores.
+
+
+
