@@ -79,9 +79,14 @@ Third, extract the weights for those models.
 This step lists all the genes with the best-performing deep learning algorithms identified in terms of AUC, MCC, and F1 scores.
 
 
-**python Step 13 - List Identified Genes - Deep learning.py**
+**python Step 14 - Get all genes identified and plot common SNPs and genes between phenotypes.py**
 
-This step lists all the genes with the best-performing deep learning algorithms identified in terms of AUC, MCC, and F1 scores.
+Combine the genes identified by the machine and deep learning algorithms and find the common SNPs and genes between phenotypes.
+
+**python Step 15 - Plot Results.py**
+
+Plot the heatmap of classification performance and the number of genes identified.
+
 
 
 
