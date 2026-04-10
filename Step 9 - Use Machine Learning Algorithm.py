@@ -185,20 +185,30 @@ def traintestMCC(model,x_train, y_train,x_test,y_test):
  return a,b,c,d
 
 
-def getmefeatureimportance(mod,name,pvalue):
-    try:    
-        saveimportance_1(mod,name,pvalue)
+def getmefeatureimportance(mod, name, pvalue):
+    try:
+        saveimportance_1(mod, name, pvalue)
     except:
         try:
-            saveimportance_2(mod,name,pvalue)
+            saveimportance_2(mod, name, pvalue)
         except:
             try:
-                saveimportance_3(mod,name,pvalue)
+                saveimportance_3(mod, name, pvalue)
             except:
                 try:
-                    saveimportance_4(mod,name,pvalue)
+                    saveimportance_4(mod, name, pvalue)
                 except:
-                    saveimportance_5(mod,name,pvalue)
+                    try:
+                        saveimportance_5(mod, name, pvalue)
+                    except:
+                        try:
+                            saveimportance_6(mod, name, pvalue)
+                        except:
+                            # Final fallback - skip silently and save zeros
+                            print(name, "no importance available - saving zeros")
+                            temp = pd.DataFrame()
+                            temp['Features_importance'] = np.zeros(mod.n_features_in_)
+                            temp.to_csv(sys.argv[1]+os.sep+sys.argv[2]+os.sep+pvalue+os.sep+name+".csv")
 
 def saveimportance_1(mod,name,pvalue):
     importance = mod.feature_importances_
@@ -239,6 +249,14 @@ def saveimportance_5(mod,name,pvalue):
     
     temp.to_csv(sys.argv[1]+os.sep+sys.argv[2]+os.sep+pvalue+os.sep+name+".csv")
 
+def saveimportance_6(mod, name, pvalue):
+    # For Naive Bayes models - use feature log probabilities
+    importance = np.abs(mod.feature_log_prob_[1] - mod.feature_log_prob_[0])
+    temp = pd.DataFrame()
+    temp['Features_importance'] = importance
+    print(name, "6")
+    temp.to_csv(sys.argv[1]+os.sep+sys.argv[2]+os.sep+pvalue+os.sep+name+".csv")
+
 
 from sklearn.linear_model import LogisticRegression
 from sklearn.ensemble import RandomForestClassifier
@@ -268,9 +286,9 @@ for pvalue in pvalues:
     if "pv_" in pvalue:
         iterationdirec = pheno+os.sep+iteration
         datadirec = pheno +os.sep + iteration + os.sep + pvalue 
-        
-        x_train = pd.read_csv("./"+datadirec+os.sep+'ptrain.raw', sep="\s+")
-        x_test = pd.read_csv("./"+datadirec+os.sep+'ptest.raw', sep="\s+")
+                
+        x_train = pd.read_csv("./"+datadirec+os.sep+'ptrain.raw', sep=r"\s+")
+        x_test = pd.read_csv("./"+datadirec+os.sep+'ptest.raw', sep=r"\s+")
         x_train.replace([np.inf, -np.inf], np.nan, inplace=True)
         x_test.replace([np.inf, -np.inf], np.nan, inplace=True)
 
@@ -283,15 +301,14 @@ for pvalue in pvalues:
         results["SNPs:"+str(x_train.shape[1])] = []
         results2["SNPs:"+str(x_train.shape[1])] = []
         results3["SNPs:"+str(x_train.shape[1])] = []
-        results4["SNPs:"+str(x_train.shape[1])] = []
-        results5["SNPs:"+str(x_train.shape[1])] = []
-        
+
         scaler = StandardScaler()
         std_scale = preprocessing.StandardScaler().fit(x_train)
         x_train = std_scale.transform(x_train)
         x_test = std_scale.transform(x_test)
-        y_train  = pd.read_csv(iterationdirec+os.sep+'train/train.fam', sep="\s+",header=None,names=["a","b","c","d","e","f"])
-        y_test= pd.read_csv(iterationdirec+os.sep+'test/test.fam', sep="\s+",header=None,names=["a","b","c","d","e","f"])
+        
+        y_train = pd.read_csv(iterationdirec+os.sep+'train/train.fam', sep=r"\s+", header=None, names=["a","b","c","d","e","f"])
+        y_test = pd.read_csv(iterationdirec+os.sep+'test/test.fam', sep=r"\s+", header=None, names=["a","b","c","d","e","f"])
         
         y_train.f[y_train['f']==1]=0
         y_train.f[y_train['f']==2]=1
@@ -300,6 +317,23 @@ for pvalue in pvalues:
 
         y_train = y_train['f'].values
         y_test = y_test['f'].values
+
+        # -- ADD THIS BLOCK HERE ------------------------------------------
+        fold_info = {
+            'fold': iteration,
+            'pvalue': pvalue,
+            'n_train': len(y_train),
+            'n_test': len(y_test),
+            'train_cases': int(sum(y_train)),
+            'train_controls': int(len(y_train) - sum(y_train)),
+            'test_cases': int(sum(y_test)),
+            'test_controls': int(len(y_test) - sum(y_test)),
+            'n_snps': x_train.shape[1]
+        }
+        pd.DataFrame([fold_info]).to_csv(
+            pheno+os.sep+iteration+os.sep+pvalue+os.sep+"fold_info.csv", index=False
+        )
+        # -- END OF ADDITION ----------------------------------------------
 
         sample_weights = compute_sample_weight(
         class_weight='balanced',
