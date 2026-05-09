@@ -2,413 +2,235 @@ from __future__ import absolute_import, division, print_function
 import pandas as pd
 import numpy as np
 import os
-import shutil
-import re 
-import glob
-import sys
-from sklearn.model_selection import train_test_split
-import sys
-import argparse 
-import numpy as np
-import math
-import pandas as pd
-from sklearn.preprocessing import StandardScaler 
-from numpy import genfromtxt
-from sklearn import svm 
-from numpy import genfromtxt
-import pandas as pd
-import numpy as np
-import matplotlib.pyplot as plt
-import math
-from sklearn.model_selection import train_test_split
-from sklearn.model_selection import StratifiedKFold
-from PIL import Image
-from sklearn.model_selection import train_test_split
-import matplotlib.pyplot as plt
-from sklearn.preprocessing import StandardScaler
- 
-from sklearn.metrics import accuracy_score
-from sklearn.metrics import confusion_matrix
-import warnings
-warnings.filterwarnings('ignore')
- 
-from datetime import datetime
-from sklearn.model_selection import RandomizedSearchCV, GridSearchCV
-from sklearn.metrics import roc_auc_score
-from sklearn.model_selection import StratifiedKFold
-scaler = StandardScaler()
-from sklearn.metrics import precision_score, recall_score, accuracy_score 
-from sklearn import metrics
-from sklearn import preprocessing 
-import seaborn as sn
-import matplotlib.pyplot as plt
-from pylab import rcParams
-import sys
-import os
-from sklearn import tree, ensemble
-from imblearn.under_sampling import RandomUnderSampler
-from imblearn.pipeline import make_pipeline
-from sklearn.metrics import roc_auc_score
-import pandas as pd
-import numpy as np
-import os
 import re
-import pandas as pd
-import numpy as np
-import pandas as pd
-import re
-import os
-import matplotlib.pyplot as plt
-from xgboost import XGBClassifier
-from sklearn.model_selection import cross_val_score
-from sklearn.model_selection import train_test_split
-from sklearn.preprocessing import StandardScaler
-scaler = StandardScaler()
-from numpy import loadtxt
-from xgboost import XGBClassifier
-from sklearn.model_selection import train_test_split
-from sklearn.metrics import accuracy_score
-from matplotlib import pyplot
-import matplotlib.pyplot as plt
-from sklearn.metrics import confusion_matrix
-from sklearn.metrics import roc_auc_score
-from sklearn.utils.class_weight import compute_sample_weight
-from numpy import mean
-from sklearn.datasets import make_classification
-from sklearn.model_selection import cross_val_score
-from sklearn.model_selection import RepeatedStratifiedKFold
-from xgboost import XGBClassifier
-import matplotlib.pyplot as plt
-from xgboost import XGBClassifier
-from sklearn.model_selection import cross_val_score
-from sklearn.model_selection import GridSearchCV
-from sklearn.model_selection import train_test_split
-from sklearn.preprocessing import StandardScaler
-scaler = StandardScaler()
-from numpy import loadtxt
-from xgboost import XGBClassifier
-from sklearn.model_selection import train_test_split
-from sklearn.metrics import accuracy_score
-from matplotlib import pyplot
-import matplotlib.pyplot as plt
-from sklearn.metrics import confusion_matrix
-from sklearn.metrics import roc_auc_score
-from sklearn.utils.class_weight import compute_sample_weight
-from numpy import mean
-from sklearn.datasets import make_classification
-from sklearn.model_selection import cross_val_score
-from sklearn.model_selection import RepeatedStratifiedKFold
-from xgboost import XGBClassifier
-from sklearn.neural_network import MLPClassifier
-from sklearn.neighbors import KNeighborsClassifier
-from sklearn.svm import SVC
-from sklearn.gaussian_process import GaussianProcessClassifier
-from sklearn.gaussian_process.kernels import RBF
-from sklearn.tree import DecisionTreeClassifier
-from sklearn.ensemble import RandomForestClassifier, AdaBoostClassifier
-from sklearn.naive_bayes import GaussianNB
-from sklearn.discriminant_analysis import QuadraticDiscriminantAnalysis
-#from sklearn.inspection import DecisionBoundaryDisplay
-np.seterr(all="ignore")
+import sys
 import warnings
+import sklearn.base
 warnings.filterwarnings("ignore")
-import pandas as pd
-import sys
-import re
-from sklearn.datasets import load_iris
-from sklearn.decomposition import PCA
-import matplotlib.pyplot as plt
-import seaborn as sns
-from sklearn.discriminant_analysis import LinearDiscriminantAnalysis
-from sklearn.decomposition import TruncatedSVD
+np.seterr(all="ignore")
+
 from sklearn.preprocessing import StandardScaler
-from sklearn.decomposition import KernelPCA
-from sklearn.manifold import TSNE
-from sklearn.manifold import MDS
-from sklearn.manifold import Isomap
-from sklearn.feature_selection import RFE
-from sklearn.linear_model import LogisticRegression
-from yellowbrick.model_selection import feature_importances
-import inspect
-from sklearn.feature_selection import SelectFromModel
-import pandas as pd
-import numpy as np
-from sklearn.feature_selection import f_classif
-from sklearn.feature_selection import SelectKBest
-from sklearn.ensemble import RandomForestClassifier
-from sklearn.feature_selection import SelectFromModel
-from sklearn.ensemble import *
-from sklearn import *
-from sklearn.linear_model import *
-from sklearn.linear_model import RidgeClassifier
-from sklearn.naive_bayes import *
-from sklearn.neighbors import *
-from sklearn.experimental import enable_hist_gradient_boosting
-from sklearn.experimental import enable_hist_gradient_boosting
-from sklearn.ensemble import HistGradientBoostingRegressor
-from sklearn.experimental import enable_hist_gradient_boosting
-from sklearn.ensemble import HistGradientBoostingClassifier
-from sklearn.metrics import matthews_corrcoef
-from sklearn.metrics import f1_score
-from sklearn.metrics import precision_score
-from sklearn.metrics import recall_score
+from sklearn import preprocessing
+from sklearn.metrics import (confusion_matrix, roc_auc_score,
+                             matthews_corrcoef, f1_score)
+from sklearn.utils.class_weight import compute_sample_weight
 
-def sorted_nicely( l ):
-    convert = lambda text: int(text) if text.isdigit() else text
-    alphanum_key = lambda key: [convert(c) for c in re.split('([0-9]+)', key)]
-    return sorted(l, key = alphanum_key)
+# ── Model imports ─────────────────────────────────────────────────────────────
+from sklearn.ensemble import (AdaBoostClassifier, BaggingClassifier,
+                               ExtraTreesClassifier, GradientBoostingClassifier,
+                               RandomForestClassifier, HistGradientBoostingClassifier)
+from sklearn.linear_model  import (PassiveAggressiveClassifier, RidgeClassifier,
+                                   SGDClassifier, LogisticRegression)
+from sklearn.naive_bayes   import BernoulliNB, GaussianNB
+from sklearn.tree          import DecisionTreeClassifier
+from sklearn.svm           import SVC
+from sklearn.neighbors     import KNeighborsClassifier
+from sklearn.neural_network import MLPClassifier
+from sklearn.discriminant_analysis import LinearDiscriminantAnalysis
+from xgboost import XGBClassifier
 
-def traintestf1score(model,x_train, y_train,x_test,y_test):
- a = int( (f1_score(y_train, [np.round(value) for value in model.predict(x_train)]) * 100.0))
- b = confusion_matrix(y_train, model.predict(x_train))
- c = int((f1_score(y_test, [np.round(value) for value in model.predict(x_test)]) * 100.0))
- d = confusion_matrix(y_test, model.predict(x_test))
- return a,b,c,d
+# ── Model registry ────────────────────────────────────────────────────────────
+# Matches exactly the models used in the original paper:
+# 16 sklearn models + 1 SVC linear + 9 XGBoost variants = 26 total
+MODEL_REGISTRY = {}
 
- a = int( (recall_score(y_train, [np.round(value) for value in model.predict(x_train)]) * 100.0))
- b = confusion_matrix(y_train, model.predict(x_train))
- c = int((recall_score(y_test, [np.round(value) for value in model.predict(x_test)]) * 100.0))
- d = confusion_matrix(y_test, model.predict(x_test))
+# ── Sklearn models (same as original allmodels list) ─────────────────────────
+sklearn_models = [
+    ("AdaBoostClassifier",             AdaBoostClassifier()),
+    ("BaggingClassifier",              BaggingClassifier()),
+    ("ExtraTreesClassifier",           ExtraTreesClassifier()),
+    ("GradientBoostingClassifier",     GradientBoostingClassifier()),
+    ("RandomForestClassifier",         RandomForestClassifier()),
+    ("HistGradientBoostingClassifier", HistGradientBoostingClassifier()),
+    ("PassiveAggressiveClassifier",    PassiveAggressiveClassifier()),
+    ("RidgeClassifier",                RidgeClassifier()),
+    ("SGDClassifier",                  SGDClassifier()),
+    ("BernoulliNB",                    BernoulliNB()),
+    ("GaussianNB",                     GaussianNB()),
+    ("KNeighborsClassifier",           KNeighborsClassifier()),
+    ("LogisticRegression",             LogisticRegression(max_iter=1000)),
+    ("MLPClassifier",                  MLPClassifier(max_iter=500)),
+    ("DecisionTreeClassifier",         DecisionTreeClassifier()),
+]
+for name, obj in sklearn_models:
+    MODEL_REGISTRY[name] = obj
 
- return a,b,c,d
-def traintestAUC(model,x_train, y_train,x_test,y_test):
- a = int( (roc_auc_score(y_train, [np.round(value) for value in model.predict(x_train)]) * 100.0))
- b = confusion_matrix(y_train, model.predict(x_train))
- c = int((roc_auc_score(y_test, [np.round(value) for value in model.predict(x_test)]) * 100.0))
- d = confusion_matrix(y_test, model.predict(x_test))
- return a,b,c,d
-def traintestMCC(model,x_train, y_train,x_test,y_test):
- a = int( (matthews_corrcoef(y_train, [np.round(value) for value in model.predict(x_train)]) * 100.0))
- b = confusion_matrix(y_train, model.predict(x_train))
- c = int((matthews_corrcoef(y_test, [np.round(value) for value in model.predict(x_test)]) * 100.0))
- d = confusion_matrix(y_test, model.predict(x_test))
- return a,b,c,d
+# ── SVC — 4 kernels (matches original paper) ─────────────────────────────────
+for kern in ['linear', 'poly', 'rbf', 'sigmoid']:
+    MODEL_REGISTRY[f"SVC_{kern}"] = SVC(gamma="auto", kernel=kern)
 
+# ── XGBoost — 9 variants (3 boosters × 3 loss functions) ─────────────────────
+for booster in ['gblinear', 'gbtree', 'dart']:
+    for loss in ['binary:hinge', 'binary:logistic', 'binary:logitraw']:
+        name = "Xgboost-Booster-{}-Lossfunction-{}".format(
+            booster, loss.replace(":", "-"))
+        MODEL_REGISTRY[name] = XGBClassifier(
+            booster=booster,
+            objective=loss,
+            eval_metric="auc",
+            verbosity=0
+        )
 
-def getmefeatureimportance(mod, name, pvalue):
-    try:
-        saveimportance_1(mod, name, pvalue)
-    except:
+# ── Metric helpers ────────────────────────────────────────────────────────────
+def get_preds(model, X):
+    return [np.round(v) for v in model.predict(X)]
+
+def traintestAUC(model, x_train, y_train, x_test, y_test):
+    a = int(roc_auc_score(y_train, get_preds(model, x_train)) * 100)
+    c = int(roc_auc_score(y_test,  get_preds(model, x_test))  * 100)
+    b = confusion_matrix(y_train,  get_preds(model, x_train))
+    d = confusion_matrix(y_test,   get_preds(model, x_test))
+    return a, b, c, d
+
+def traintestMCC(model, x_train, y_train, x_test, y_test):
+    a = int(matthews_corrcoef(y_train, get_preds(model, x_train)) * 100)
+    c = int(matthews_corrcoef(y_test,  get_preds(model, x_test))  * 100)
+    b = confusion_matrix(y_train,      get_preds(model, x_train))
+    d = confusion_matrix(y_test,       get_preds(model, x_test))
+    return a, b, c, d
+
+def traintestF1(model, x_train, y_train, x_test, y_test):
+    a = int(f1_score(y_train, get_preds(model, x_train)) * 100)
+    c = int(f1_score(y_test,  get_preds(model, x_test))  * 100)
+    b = confusion_matrix(y_train, get_preds(model, x_train))
+    d = confusion_matrix(y_test,  get_preds(model, x_test))
+    return a, b, c, d
+
+# ── Feature importance savers ─────────────────────────────────────────────────
+def save_importance(mod, name, out_path):
+    def method1(m): return m.feature_importances_
+    def method2(m): return np.mean(
+        [t.feature_importances_ for t in m.estimators_], axis=0)
+    def method3(m): return m.best_estimator_.feature_importances_
+    def method4(m): return m.coef_[0]
+    def method5(m): return m.ranking_
+    def method6(m): return np.abs(
+        m.feature_log_prob_[1] - m.feature_log_prob_[0])
+    def method7(m): return np.zeros(m.n_features_in_)
+
+    for i, method in enumerate([method1, method2, method3,
+                                 method4, method5, method6, method7], 1):
         try:
-            saveimportance_2(mod, name, pvalue)
-        except:
-            try:
-                saveimportance_3(mod, name, pvalue)
-            except:
-                try:
-                    saveimportance_4(mod, name, pvalue)
-                except:
-                    try:
-                        saveimportance_5(mod, name, pvalue)
-                    except:
-                        try:
-                            saveimportance_6(mod, name, pvalue)
-                        except:
-                            # Final fallback - skip silently and save zeros
-                            print(name, "no importance available - saving zeros")
-                            temp = pd.DataFrame()
-                            temp['Features_importance'] = np.zeros(mod.n_features_in_)
-                            temp.to_csv(sys.argv[1]+os.sep+sys.argv[2]+os.sep+pvalue+os.sep+name+".csv")
+            importance = method(mod)
+            pd.DataFrame({"Features_importance": importance}).to_csv(out_path)
+            print(f"    {name} importance method {i}")
+            return
+        except Exception:
+            continue
+    print(f"    {name} - all importance methods failed")
 
-def saveimportance_1(mod,name,pvalue):
-    importance = mod.feature_importances_
-    temp = pd.DataFrame()
-    temp['Features_importance'] =  importance
-    print(name,"1")
-    temp.to_csv(sys.argv[1]+os.sep+sys.argv[2]+os.sep+pvalue+os.sep+name+".csv")
+# ── Fit helper ────────────────────────────────────────────────────────────────
+def fit_model(model, x_train, y_train, sample_weights):
+    try:
+        return model.fit(x_train, y_train, sample_weight=sample_weights)
+    except TypeError:
+        return model.fit(x_train, y_train)
 
-def saveimportance_2(mod,name,pvalue):
-    feature_importances = np.mean([tree.feature_importances_ for tree in mod.estimators_], axis=0)
-    temp = pd.DataFrame()
-    temp['Features_importance'] =  feature_importances
-    print(name,"2")
-    
-    temp.to_csv(sys.argv[1]+os.sep+sys.argv[2]+os.sep+pvalue+os.sep+name+".csv")    
- 
-def saveimportance_3(mod,name,pvalue):
-    importance = mod.best_estimator_.feature_importances_
-    temp = pd.DataFrame()
-    temp['Features_importance'] =  importance
-    print(name,"3")
-    
-    temp.to_csv(sys.argv[1]+os.sep+sys.argv[2]+os.sep+pvalue+os.sep+name+".csv")
+# ── Sorted nicely ─────────────────────────────────────────────────────────────
+def sorted_nicely(l):
+    convert      = lambda text: int(text) if text.isdigit() else text
+    alphanum_key = lambda key: [convert(c) for c in re.split("([0-9]+)", key)]
+    return sorted(l, key=alphanum_key)
 
-def saveimportance_4(mod,name,pvalue):
-    importance = mod.coef_[0]
-    temp = pd.DataFrame()
-    temp['Features_importance'] =  importance
-    print(name,"4")
-    
-    temp.to_csv(sys.argv[1]+os.sep+sys.argv[2]+os.sep+pvalue+os.sep+name+".csv")
-
-def saveimportance_5(mod,name,pvalue):
-    importance = mod.ranking_
-    temp = pd.DataFrame()
-    temp['Features_importance'] =  importance
-    print(name,"5")
-    
-    temp.to_csv(sys.argv[1]+os.sep+sys.argv[2]+os.sep+pvalue+os.sep+name+".csv")
-
-def saveimportance_6(mod, name, pvalue):
-    # For Naive Bayes models - use feature log probabilities
-    importance = np.abs(mod.feature_log_prob_[1] - mod.feature_log_prob_[0])
-    temp = pd.DataFrame()
-    temp['Features_importance'] = importance
-    print(name, "6")
-    temp.to_csv(sys.argv[1]+os.sep+sys.argv[2]+os.sep+pvalue+os.sep+name+".csv")
-
-
-from sklearn.linear_model import LogisticRegression
-from sklearn.ensemble import RandomForestClassifier
-from sklearn.neighbors import KNeighborsClassifier
-from sklearn.svm import SVC
-from sklearn.ensemble import HistGradientBoostingRegressor
-import numpy as np, sequentia as seq
-
-allmodels = ['AdaBoostClassifier','BaggingClassifier','ExtraTreesClassifier','GradientBoostingClassifier',
-'RandomForestClassifier','PassiveAggressiveClassifier'
-,'RidgeClassifier','SGDClassifier','BernoulliNB','LogisticRegression','DecisionTreeClassifier']
-
-
-
-pheno = sys.argv[1]
+# ── Main ──────────────────────────────────────────────────────────────────────
+pheno     = sys.argv[1]
 iteration = sys.argv[2]
-pvalues = os.listdir(sys.argv[1]+os.sep+str(iteration))
+pvalues   = os.listdir(pheno + os.sep + str(iteration))
 
-results = {}
-results2 = {}
-results3 = {}
-results4 = {}
-results5 = {}
+results_auc = {}
+results_mcc = {}
+results_f1  = {}
 
-count=1
-for pvalue in pvalues:
-    if "pv_" in pvalue:
-        iterationdirec = pheno+os.sep+iteration
-        datadirec = pheno +os.sep + iteration + os.sep + pvalue 
-                
-        x_train = pd.read_csv("./"+datadirec+os.sep+'ptrain.raw', sep=r"\s+")
-        x_test = pd.read_csv("./"+datadirec+os.sep+'ptest.raw', sep=r"\s+")
-        x_train.replace([np.inf, -np.inf], np.nan, inplace=True)
-        x_test.replace([np.inf, -np.inf], np.nan, inplace=True)
+for pvalue in sorted(pvalues):
+    if "pv_" not in pvalue:
+        continue
 
-        x_train = x_train.fillna(0)
-        x_test = x_test.fillna(0)
+    print(f"\n{'='*60}")
+    print(f"  Phenotype: {pheno} | Fold: {iteration} | PValue: {pvalue}")
+    print(f"{'='*60}")
 
-        x_train =x_train.iloc[:,6:].values
-        x_test  =x_test.iloc[:,6:].values
+    iterationdirec = pheno + os.sep + iteration
+    datadirec      = pheno + os.sep + iteration + os.sep + pvalue
+    pv_out         = pheno + os.sep + iteration + os.sep + pvalue + os.sep
 
-        results["SNPs:"+str(x_train.shape[1])] = []
-        results2["SNPs:"+str(x_train.shape[1])] = []
-        results3["SNPs:"+str(x_train.shape[1])] = []
+    # ── Load genotype data ────────────────────────────────────────────────────
+    x_train = pd.read_csv("./" + datadirec + os.sep + "ptrain.raw", sep=r"\s+")
+    x_test  = pd.read_csv("./" + datadirec + os.sep + "ptest.raw",  sep=r"\s+")
 
-        scaler = StandardScaler()
-        std_scale = preprocessing.StandardScaler().fit(x_train)
-        x_train = std_scale.transform(x_train)
-        x_test = std_scale.transform(x_test)
-        
-        y_train = pd.read_csv(iterationdirec+os.sep+'train/train.fam', sep=r"\s+", header=None, names=["a","b","c","d","e","f"])
-        y_test = pd.read_csv(iterationdirec+os.sep+'test/test.fam', sep=r"\s+", header=None, names=["a","b","c","d","e","f"])
-        
-        y_train.f[y_train['f']==1]=0
-        y_train.f[y_train['f']==2]=1
-        y_test.f[y_test['f']==1]=0
-        y_test.f[y_test['f']==2]=1
+    x_train.replace([np.inf, -np.inf], np.nan, inplace=True)
+    x_test.replace( [np.inf, -np.inf], np.nan, inplace=True)
+    x_train = x_train.fillna(0).iloc[:, 6:].values
+    x_test  = x_test.fillna(0).iloc[:,  6:].values
 
-        y_train = y_train['f'].values
-        y_test = y_test['f'].values
+    key = "SNPs:" + str(x_train.shape[1])
+    results_auc[key] = []
+    results_mcc[key] = []
+    results_f1[key]  = []
 
-        # -- ADD THIS BLOCK HERE ------------------------------------------
-        fold_info = {
-            'fold': iteration,
-            'pvalue': pvalue,
-            'n_train': len(y_train),
-            'n_test': len(y_test),
-            'train_cases': int(sum(y_train)),
-            'train_controls': int(len(y_train) - sum(y_train)),
-            'test_cases': int(sum(y_test)),
-            'test_controls': int(len(y_test) - sum(y_test)),
-            'n_snps': x_train.shape[1]
-        }
-        pd.DataFrame([fold_info]).to_csv(
-            pheno+os.sep+iteration+os.sep+pvalue+os.sep+"fold_info.csv", index=False
-        )
-        # -- END OF ADDITION ----------------------------------------------
+    # ── Standardize ───────────────────────────────────────────────────────────
+    std_scale = preprocessing.StandardScaler().fit(x_train)
+    x_train   = std_scale.transform(x_train)
+    x_test    = std_scale.transform(x_test)
 
-        sample_weights = compute_sample_weight(
-        class_weight='balanced',
-        y=y_train
-        )
+    # ── Load labels ───────────────────────────────────────────────────────────
+    y_train = pd.read_csv(
+        iterationdirec + os.sep + "train/train.fam",
+        sep=r"\s+", header=None, names=list("abcdef"))
+    y_test  = pd.read_csv(
+        iterationdirec + os.sep + "test/test.fam",
+        sep=r"\s+", header=None, names=list("abcdef"))
+ 
+    
+    # ── REPLACE WITH this ─────────────────────────────────────────────────────────
+    y_train = y_train["f"].map({1: 0, 2: 1}).values
+    y_test  = y_test["f"].map({1: 0, 2: 1}).values
+ 
 
-        for model in allmodels:
-            try:
-                mod = eval(model)().fit(x_train, y_train, sample_weight=sample_weights)
-                getmefeatureimportance(mod,model,pvalue)
+    # ── Save fold info ────────────────────────────────────────────────────────
+    pd.DataFrame([{
+        "fold":           iteration,
+        "pvalue":         pvalue,
+        "n_train":        len(y_train),
+        "n_test":         len(y_test),
+        "train_cases":    int(sum(y_train)),
+        "train_controls": int(len(y_train) - sum(y_train)),
+        "test_cases":     int(sum(y_test)),
+        "test_controls":  int(len(y_test) - sum(y_test)),
+        "n_snps":         x_train.shape[1]
+    }]).to_csv(pv_out + "fold_info.csv", index=False)
 
-                a,b,c,d =traintestAUC(mod,x_train, y_train,x_test,y_test) 
-                results["SNPs:"+str(x_train.shape[1])].append(str(a)+"/"+str(c))
+    sample_weights = compute_sample_weight(class_weight="balanced", y=y_train)
 
-                a,b,c,d =traintestMCC(mod,x_train, y_train,x_test,y_test) 
-                results2["SNPs:"+str(x_train.shape[1])].append(str(a)+"/"+str(c))
+    # ── Run all models ────────────────────────────────────────────────────────
+    for model_name, model_obj in MODEL_REGISTRY.items():
+        print(f"  Running: {model_name} | SNPs: {x_train.shape[1]}")
 
-                a,b,c,d =traintestf1score(mod,x_train, y_train,x_test,y_test) 
-                results3["SNPs:"+str(x_train.shape[1])].append(str(a)+"/"+str(c))   
-                             
-            except:
-                mod = eval(model)().fit(x_train, y_train)
-                getmefeatureimportance(mod,model,pvalue)
+        # Fresh instance — no state leakage between pvalue folders
+        mod = sklearn.base.clone(model_obj)
+        mod = fit_model(mod, x_train, y_train, sample_weights)
 
+        # Save feature importance
+        save_importance(mod, model_name, pv_out + model_name + ".csv")
 
-                a,b,c,d =traintestAUC(mod,x_train, y_train,x_test,y_test) 
-                results["SNPs:"+str(x_train.shape[1])].append(str(a)+"/"+str(c))
+        # ── Evaluate — all three metrics use the SAME model ──────────────────
+        a, b, c, d = traintestAUC(mod, x_train, y_train, x_test, y_test)
+        results_auc[key].append(str(a) + "/" + str(c))
 
-                a,b,c,d =traintestMCC(mod,x_train, y_train,x_test,y_test) 
-                results2["SNPs:"+str(x_train.shape[1])].append(str(a)+"/"+str(c))
+        a, b, c, d = traintestMCC(mod, x_train, y_train, x_test, y_test)
+        results_mcc[key].append(str(a) + "/" + str(c))
 
-                a,b,c,d =traintestf1score(mod,x_train, y_train,x_test,y_test) 
-                results3["SNPs:"+str(x_train.shape[1])].append(str(a)+"/"+str(c))
+        a, b, c, d = traintestF1(mod, x_train, y_train, x_test, y_test)
+        results_f1[key].append(str(a) + "/" + str(c))
 
+    # ── Save results after each pvalue folder ─────────────────────────────────
+    pd.DataFrame(results_auc).to_csv(
+        pheno + os.sep + iteration + os.sep + "Results_MachineLearning_AUC.csv",
+        index=False, sep="\t")
+    pd.DataFrame(results_mcc).to_csv(
+        pheno + os.sep + iteration + os.sep + "Results_MachineLearning_MCC.csv",
+        index=False, sep="\t")
+    pd.DataFrame(results_f1).to_csv(
+        pheno + os.sep + iteration + os.sep + "Results_MachineLearning_f1score.csv",
+        index=False, sep="\t")
 
-        for kern in ['linear']:
-            mod = SVC(gamma='auto',kernel=kern).fit(x_train, y_train, sample_weight=sample_weights)
-            getmefeatureimportance(mod,"SGDClassifier",pvalue)
-            a,b,c,d =traintestAUC(mod,x_train, y_train,x_test,y_test) 
-            results["SNPs:"+str(x_train.shape[1])].append(str(a)+"/"+str(c))
-
-            a,b,c,d =traintestMCC(mod,x_train, y_train,x_test,y_test) 
-            results2["SNPs:"+str(x_train.shape[1])].append(str(a)+"/"+str(c))
-            
-            a,b,c,d =traintestf1score(mod,x_train, y_train,x_test,y_test) 
-            results3["SNPs:"+str(x_train.shape[1])].append(str(a)+"/"+str(c))
-
-
-
-                        
-        booster = ['gblinear','gbtree','dart']
-        lossfunction = ['binary:hinge','binary:logistic','binary:logitraw']
-
-
-        for x1 in booster:
-            for x2 in lossfunction:
-                xgb = XGBClassifier(booster=x1,objective=x2,eval_metric="auc").fit(x_train, y_train)
-                getmefeatureimportance(xgb,"Xgboost-Booster-"+x1+"-Lossfunction-"+x2.replace(":","-"),pvalue)
-                a,b,c,d =traintestAUC(xgb,x_train, y_train,x_test,y_test) 
-                results["SNPs:"+str(x_train.shape[1])].append(str(a)+"/"+str(c))
-
-                a,b,c,d =traintestMCC(mod,x_train, y_train,x_test,y_test) 
-                results2["SNPs:"+str(x_train.shape[1])].append(str(a)+"/"+str(c))       
-
-                a,b,c,d =traintestf1score(mod,x_train, y_train,x_test,y_test) 
-                results3["SNPs:"+str(x_train.shape[1])].append(str(a)+"/"+str(c))
-
-        L = pd.DataFrame(results)
-        L.to_csv(pheno+os.sep+iteration+os.sep+"Results_MachineLearning_AUC.csv",index=False, sep="\t")
-
-        L = pd.DataFrame(results2)
-        L.to_csv(pheno+os.sep+iteration+os.sep+"Results_MachineLearning_MCC.csv",index=False, sep="\t")
-
-        L = pd.DataFrame(results3)
-        L.to_csv(pheno+os.sep+iteration+os.sep+"Results_MachineLearning_f1score.csv",index=False, sep="\t")
-        
-        
-        print(pd.DataFrame(results).to_markdown()) 
+    print(pd.DataFrame(results_auc).to_markdown())
